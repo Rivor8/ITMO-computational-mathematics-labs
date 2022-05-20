@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include <vector>
 #include <cmath>
+#include <windows.h>
 
 using std::cout;
 using std::cin;
@@ -16,25 +17,26 @@ _matrix cramer(_matrix, _matrix); // Функция для решения СЛА
 
 int main()
 {
-    setlocale(LC_ALL, "Russian");
+
+    SetConsoleOutputCP(CP_UTF8);
 
     int n;
-    cout << "Введите количество уравнений: ";
+    cout << "Введите количество уравнений:";
     cin >> n;
     _matrix a = init_matrix(n, n);
     _matrix b = init_matrix(n, 1);
     cout << "Введите матрицу коэффициентов" << endl;
     for (int i = 0; i < n; i++) {
-        cout << "Строка " << i + 1 << ": ";
+        cout << "Строка " << i + 1 << ":";
         for (int j = 0; j < n; j++) {
             cin >> a[i][j];
         }
     }
-    cout << "Введите вектор правых частей: " << endl;
+    cout << "Введите вектор правых частей:" << endl;
     for (int i = 0; i < n; i++) {
         cin >> b[i][0];
     }
-    cout << "Результат: " << endl;
+    cout << "Результат:" << endl;
     print_matrix(cramer(a, b));
 
 
@@ -70,6 +72,9 @@ double det(_matrix m) {
             }
             sum += det(tmp) * pow(-1, i) * m[0][i];
         }
+        if (abs(sum) <= 1e-7)
+            return 0;
+
         return sum;
     }
 }
